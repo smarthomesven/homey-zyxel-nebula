@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .error {
+        color: red;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <fieldset class="homey-form-fieldset">
+      <legend class="homey-form-legend" data-i18n="pair.title">NextDNS</legend>
+      <br>
+      <strong data-i18n="pair.subscription"></strong>
+      <p data-i18n="pair.info"></p>
+      <div class="homey-form-group">
+        <label class="homey-form-label" for="apikey" data-i18n="pair.key">API Key</label>
+        <input class="homey-form-input" id="apikey" type="text" value="" />
+      </div>
+    </fieldset>
+
+    <p class="error" id="failed" data-i18n="pair.failed">Invalid API Key</p>
+    <button id="save" class="homey-button-primary-full" data-i18n="settings.save">Save</button>
+    <script type="text/javascript">
+      const keyElement = document.getElementById('apikey');
+      const errorElement = document.getElementById('failed');
+      const saveElement = document.getElementById('save');
+      errorElement.style.display = 'none';
+        saveElement.addEventListener("click", function (e) {
+          setSaving();
+          const key = keyElement.value;
+          Homey.emit("apikey", { apikey: key  }).then(function (result) {
+            if (result === false) {
+              errorElement.style.display = 'block';
+              setSave();
+            }
+          });
+        });
+        function setSave() {
+          saveElement.className = 'homey-button-primary-full';
+          saveElement.textContent = Homey.__('pair.save');
+        }
+
+        function setSaving() {
+          saveElement.className = 'homey-button-primary-full is-loading';
+          saveElement.textContent = Homey.__('pair.saving');
+        }
+    </script>
+  </body>
+</html>

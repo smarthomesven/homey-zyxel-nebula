@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .error {
+        color: red;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <fieldset id="siteFieldset" class="homey-form-fieldset">
+      <legend class="homey-form-legend" data-i18n="pair.selectsite"></legend>
+      
+    </fieldset>
+    <p id="nosites" class="error" data-i18n="pair.nosites"></p>
+    <p id="error" class="error" data-i18n="pair.error"></p>
+
+    <button id="saveBtn" class="homey-button-primary-full" data-i18n="settings.save" onclick="onSaveClicked()">Save</button>
+    <script type="text/javascript">
+      const errorElement = document.getElementById('error');
+      const saveBtn = document.getElementById('saveBtn');
+      const noSitesError = document.getElementById('nosites');
+      const siteFieldset = document.getElementById('siteFieldset');
+      let selectedSite;
+      errorElement.style.display = 'none';
+        function setSave() {
+          saveBtn.className = 'homey-button-primary-full';
+          saveBtn.textContent = Homey.__('pair.save');
+        }
+
+        function setSaving() {
+          saveBtn.className = 'homey-button-primary-full is-loading';
+          saveBtn.textContent = Homey.__('pair.saving');
+        }
+        console.log('Requesting sites from driver');
+        Homey.emit("getSites", { test : "" }).then(function (result) {
+            if (result === false) {
+                errorElement.style.display = 'block';
+                saveBtn.style.display = 'none';
+                return;
+            }
+            if (result.error) {
+                noSitesError.style.display = 'block';
+                saveBtn.style.display = 'none';
+                return;
+            }
+            const sites = result.links;
+        
+            sites.forEach(({ id, name }) => {
+                const radioWrapper = document.createElement('label');
+                radioWrapper.className = 'homey-form-radio';
+
+                const radioInput = document.createElement('input');
+                radioInput.className = 'homey-form-radio-input';
+                radioInput.type = 'radio';
+                radioInput.name = 'site-radio';
+                radioInput.id = id;
+
+                const radioCheckmark = document.createElement('span');
+                radioCheckmark.className = 'homey-form-radio-checkmark';
+
+                const radioText = document.createElement('span');
+                radioText.className = 'homey-form-radio-text';
+                radioText.textContent = name + " (" + id + ")";
+
+                // Handle click
+                radioInput.addEventListener('change', () => {
+                    selectedSite = { id: id };
+                });
+
+                // Assemble structure
+                radioWrapper.appendChild(radioInput);
+                radioWrapper.appendChild(radioCheckmark);
+                radioWrapper.appendChild(radioText);
+                siteFieldset.appendChild(radioWrapper);
+            });
+        });
+
+        function onSaveClicked() {
+            console.log('Save button clicked');
+          if (!selectedSite || !selectedSite.id) {
+            console.log('No site selected');
+            return;
+          }
+          console.log('Selected site:', selectedSite);
+          setSaving();
+          Homey.emit("selectedSite", { id : selectedSite.id }).then(function (result) {
+            if (result === false) {
+              errorElement.style.display = 'block';
+              setSave();
+              return;
+            }
+          });
+        }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+{
+  "name": {
+    "en": "Client"
+  },
+  "class": "other",
+  "capabilities": [
+    "alarm_disconnected"
+  ],
+  "platforms": [
+    "local"
+  ],
+  "connectivity": [
+    "cloud"
+  ],
+  "images": {
+    "small": "{{driverAssetsPath}}/images/small.png",
+    "large": "{{driverAssetsPath}}/images/large.png",
+    "xlarge": "{{driverAssetsPath}}/images/xlarge.png"
+  },
+  "pair": [
+    {
+      "id": "apikey"
+    },
+    {
+      "id": "select_organization"
+    },
+    {
+      "id": "select_site"
+    },
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": { "next": "add_devices" },
+      "options": { "singular": false }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ],
+  "repair": [
+    {
+      "id": "apikey"
+    },
+    {
+      "id": "select_organization"
+    },
+    {
+      "id": "select_site"
+    }
+  ]
+}

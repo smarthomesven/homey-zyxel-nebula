@@ -1,0 +1,16 @@
+{
+  "pair": {
+    "save": "Opslaan",
+    "saving": "Opslaan",
+    "title": "Zyxel Nebula",
+    "key": "API-sleutel",
+    "failed": "Ongeldige API-sleutel",
+    "info": "Ga naar nebula.zyxel.com, klik op het menu rechtsbovenin en selecteer 'My devices & services'. Klik hierna op het tabblad 'NCC OpenAPI Key' en voer de gegenereerde API-key hieronder in.",
+    "subscription": "Let op: een Nebula Pro Pack-licentie is vereist voor het gebruik van deze app!",
+    "nolinks": "Je hebt geen organisaties",
+    "error": "Er is iets misgegaan",
+    "select": "Selecteer de organisatie",
+    "selectsite": "Selecteer de site",
+    "nosites": "Je hebt geen sites"
+  }
+}

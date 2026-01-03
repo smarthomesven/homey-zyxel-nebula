@@ -1,0 +1,27 @@
+{
+"triggers": [
+    {
+      "id": "device_disconnected",
+      "title": {
+        "en": "Disconnected",
+        "nl": "Verbinding verbroken"
+      }
+    },
+    {
+      "id": "device_reconnected",
+      "title": {
+        "en": "Reconnected",
+        "nl": "Opnieuw verbonden"
+      }
+    }
+  ],
+  "conditions": [
+    {
+        "id": "is_device_connected",
+        "title": {
+            "en": "Client is !{{connected|disconnected}}",
+            "nl": "Client is !{{verbonden|niet verbonden}}"
+        }
+    }
+  ]
+}
