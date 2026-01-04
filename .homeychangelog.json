@@ -4,5 +4,8 @@
   },
   "1.0.1": {
     "en": "Update app image"
+  },
+  "1.0.2": {
+    "en": "Added IP address capability and added forum topic ID to the app manifest"
   }
 }
