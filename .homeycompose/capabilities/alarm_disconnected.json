@@ -1,12 +1,11 @@
 {
   "type": "boolean",
   "title": {
-    "en": "Disconnected",
-    "nl": "Verbinding verbroken"
+    "en": "Offline",
+    "nl": "Offline"
   },
   "getable": true,
   "setable": false,
   "uiComponent": "sensor",
-  "uiQuickAction": true,
   "icon": "/assets/disconnected.svg"
 }

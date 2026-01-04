@@ -109,7 +109,7 @@ module.exports = class ZyxelNebulaApp extends Homey.App {
       poller.lastData = clientsData;
       
       for (const [deviceId, device] of poller.devices) {
-        this.updateDevice(device, deviceId, clientsData);
+        await this.updateDevice(device, deviceId, clientsData);
       }
       
     } catch (error) {
@@ -117,20 +117,25 @@ module.exports = class ZyxelNebulaApp extends Homey.App {
     }
   }
 
-  updateDevice(device, macAddress, clientsData) {
-    const clientData = clientsData.find(c => c.macAddress === macAddress);
-    
-    if (!clientData) {
-      this.log(`Client ${macAddress} not found in data`);
-      device.updateConnectionStatus(true).catch(err => {
+  async updateDevice(device, macAddress, clientsData) {
+    try {
+      const clientData = clientsData.find(c => c.macAddress === macAddress);
+      
+      if (!clientData) {
+        this.log(`Client ${macAddress} not found in data`);
+        device.updateConnectionStatus(true).catch(err => {
+          this.error(`Error updating device ${macAddress}:`, err);
+        });
+        return;
+      }
+      
+      const isDisconnected = clientData.status !== 'ONLINE';
+      device.updateConnectionStatus(isDisconnected).catch(err => {
         this.error(`Error updating device ${macAddress}:`, err);
       });
-      return;
+      await device.setCapabilityValue('ip_address', clientData.ipv4Address || '');
+    } catch (error) {
+      this.error(`Error updating device ${macAddress}:`, error.message);
     }
-    
-    const isDisconnected = clientData.status !== 'ONLINE';
-    device.updateConnectionStatus(isDisconnected).catch(err => {
-      this.error(`Error updating device ${macAddress}:`, err);
-    });
   }
 };

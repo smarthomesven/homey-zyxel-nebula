@@ -13,6 +13,13 @@
         "en": "Reconnected",
         "nl": "Opnieuw verbonden"
       }
+    },
+    {
+      "id": "ip_address_changed",
+      "title": {
+        "en": "IP address changed",
+        "nl": "IP-adres veranderd"
+      }
     }
   ],
   "conditions": [

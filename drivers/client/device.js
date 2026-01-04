@@ -6,6 +6,9 @@ module.exports = class ClientDevice extends Homey.Device {
 
   async onInit() {
     this.log('Client device has been initialized');
+    if (!this.hasCapability('ip_address')) {
+      await this.addCapability('ip_address');
+    }
     
     const store = this.getStore();
     const macAddress = store.id;
