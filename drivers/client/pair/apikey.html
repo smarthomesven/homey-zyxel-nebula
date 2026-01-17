@@ -20,16 +20,24 @@
       </div>
     </fieldset>
 
-    <p class="error" id="failed" data-i18n="pair.failed">Invalid API Key</p>
+    <p class="error" id="failed" style="display: none;" data-i18n="pair.failed">Invalid API Key</p>
+    <p class="error" id="noinput" style="display: none;" data-i18n="pair.noinput">Please enter an API Key</p>
     <button id="save" class="homey-button-primary-full" data-i18n="settings.save">Save</button>
     <script type="text/javascript">
       const keyElement = document.getElementById('apikey');
       const errorElement = document.getElementById('failed');
       const saveElement = document.getElementById('save');
-      errorElement.style.display = 'none';
+      const noInputElement = document.getElementById('noinput');
         saveElement.addEventListener("click", function (e) {
           setSaving();
+          errorElement.style.display = 'none';
+          noInputElement.style.display = 'none';
           const key = keyElement.value;
+          if (!key) {
+            noInputElement.style.display = 'block';
+            setSave();
+            return;
+          }
           Homey.emit("apikey", { apikey: key  }).then(function (result) {
             if (result === false) {
               errorElement.style.display = 'block';
