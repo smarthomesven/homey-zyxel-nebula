@@ -58,5 +58,8 @@
   },
   "1.0.19": {
     "en": "Fixed repair view"
+  },
+  "1.0.20": {
+    "en": "Removed metrics"
   }
 }
