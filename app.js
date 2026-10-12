@@ -2,12 +2,15 @@
 
 const Homey = require('homey');
 const axios = require('axios');
+const HomeyPush = require('./lib/push');
 
 module.exports = class ZyxelNebulaApp extends Homey.App {
 
   async onInit() {
     this.log('Zyxel Nebula has been initialized');
     this.sitePollers = new Map();
+    this.push = new HomeyPush(this);
+    await this.push.startPush();
         
     this.homey.flow.getConditionCard('is_device_connected')
       .registerRunListener(async (args, state) => {
@@ -137,5 +140,10 @@ module.exports = class ZyxelNebulaApp extends Homey.App {
     } catch (error) {
       this.error(`Error updating device ${macAddress}:`, error.message);
     }
+  }
+
+  async onUninit() {
+    this.log('Zyxel Nebula is shutting down');
+    this.push.stopPush();
   }
 };
